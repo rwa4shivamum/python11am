@@ -47,3 +47,5 @@ print(intro2.title())
 print(dir(intro2))
 print(intro2.capitalize())
 print(intro2.isascii())
+
+print(dir(intro2))

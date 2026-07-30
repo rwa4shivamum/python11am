@@ -63,3 +63,8 @@ for i in range(n,0,-1):
 #3 4 5
 #2 3 4 5
 #1 2 3 4 5
+
+
+str1 =  "hello world"
+str2 = str1.split()
+str3 = str2[0][1:-1],str2[1][1:-1]
