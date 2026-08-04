@@ -58,16 +58,25 @@
 #         print("* ", end="")
 #     print("")
 
-count = 0
-while(True):
-    print("""Welcome to the Pattern genrator and NUmber analyzer
-           Select an Option:
-           1.Generate a Pattern 
-           2.Analyze a Range of Number
-           3.Exit
-           """)
-    userInput = int(input("Enter your choice: "))
-    count+=1
-    if(count == 15):
-        break
+# count = 0
+# while(True):
+#     print("""Welcome to the Pattern genrator and NUmber analyzer
+#            Select an Option:
+#            1.Generate a Pattern 
+#            2.Analyze a Range of Number
+#            3.Exit
+#            """)
+#     userInput = int(input("Enter your choice: "))
+#     count+=1
+#     if(count == 15):
+#         break
+
+
+
+#Array: collection of element with same data type
+#List: collection of element with different or same data types
+
+#list = [1,2,3,4,5] #this can be the array as well as list why
+
+
 
