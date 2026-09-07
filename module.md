@@ -1,34 +1,18 @@
 # 🐍 Python Modules & Packages
 
-> **Topics Covered**
->
-> * Creating & Importing Modules
-> * Renaming Modules using `as`
-> * `__name__` and `__main__`
-> * Creating & Using Packages
-> * `dir()`
-> * Practice Exercises
+> **Goal:** Learn how to use Python's built-in modules, create your own modules, organize code into packages, and understand `__name__`, `__main__`, `dir()` and `__init__.py`.
 
 ---
 
-# 1. What is a Module?
+# 📚 Lecture 1 — Python Modules
 
-A **module** is simply a Python file (`.py`) that contains reusable code such as:
+## 1. What is a Module?
 
-* Variables
-* Functions
-* Classes
-* Statements
+A **module** is simply a Python file (`.py`) containing variables, functions, classes, or other code that can be reused in another Python program.
 
 ### Example
 
-Suppose we create a file:
-
-```text
-calculator.py
-```
-
-Inside it:
+**calculator.py**
 
 ```python
 def add(a, b):
@@ -38,490 +22,432 @@ def subtract(a, b):
     return a - b
 ```
 
-Here, `calculator.py` is a **module**.
-//DRY( don't repeat yourself ) Principle 
-We can use these functions in another Python file instead of writing them again.
+**main.py**
+
+```python
+import calculator
+
+print(calculator.add(10, 5))
+print(calculator.subtract(10, 5))
+```
+
+### Why use modules?
+
+* ♻️ Code reusability
+* 🧹 Keeps code organized
+* 🔧 Easier maintenance
+* 📦 Avoids writing the same code repeatedly
 
 ---
 
-# 2. Why Do We Use Modules?
+# 2. Types of Modules
 
-Imagine writing one huge Python file:
+Python modules can mainly be:
 
-```text
-project.py
+### 1. Built-in Modules
+
+Already provided by Python.
+
+Examples:
+
+```python
+import math
+import random
+import datetime
+import time
+import uuid
 ```
 
-containing:
+### 2. User-defined Modules
 
-```text
-1000+ lines
-suggestion write only 200 lines in single file
-```
-
-It becomes difficult to:
-
-* Maintain
-* Debug
-* Reuse code
-* Understand the project
-
-Instead, we can divide our code:
-
-```text
-project/
-│
-├── calculator.py
-├── student.py
-├── employee.py
-└── main.py
-```
-
-This makes the project **organized and reusable**.
-
-### Main advantages
-
-| Advantage       | Meaning                                            |
-| --------------- | -------------------------------------------------- |
-| Reusability     | Use the same code multiple times                   |
-| Organization    | Divide large programs into smaller files           |
-| Maintainability | Easier to modify code                              |
-| Readability     | Code becomes easier to understand                  |
-| Collaboration   | Different developers can work on different modules |
-
----
-
-# 3. Creating a Module
-
-### Step 1: Create a Python file
-
-Create:
+Modules created by the programmer.
 
 ```text
 calculator.py
+student.py
+employee.py
 ```
 
-### Step 2: Add code
+### 3. Third-party Modules
+
+Installed separately using `pip`.
+
+Examples:
 
 ```python
-def add(a, b):
-    return a + b
-
-def multiply(a, b):
-    return a * b
-```
-
-Now we have created our own module.
-
----
-
-# 4. Importing a Module
-
-Create another file:
-
-```text
-main.py
-```
-
-Import the module:
-
-```python
-import calculator
-```
-
-Now we can access its functions.
-
-```python
-print(calculator.add(10, 20))
-print(calculator.multiply(5, 4))
-```
-
-### Output
-
-```text
-30
-20
-```
-
-### Syntax
-
-```python
-import module_name
-```
-
-Access members using:
-
-```python
-module_name.member_name
+import numpy
+import pandas
 ```
 
 ---
 
-# 5. Import Specific Functions
+# 3. Importing a Module
 
-Instead of importing the complete module:
+### Basic Import
 
 ```python
-import calculator
+import math
+
+print(math.sqrt(25))
 ```
 
-we can import specific functions.
+### Import Specific Function
 
 ```python
-from calculator import add
+from math import sqrt
+  
+print(sqrt(25))
 ```
 
-Now we can directly use:
+### Import Multiple Functions
 
 ```python
-print(add(10, 20))
+from math import sqrt, factorial
+
+print(sqrt(16))
+print(factorial(5))
 ```
 
-No need to write:
+### Import Everything
 
 ```python
-calculator.add()
+from math import *
 ```
 
-### Multiple functions
+⚠️ **Not recommended** because it can cause naming conflicts.
+
+---
+
+# 4. Renaming / Aliasing a Module
+
+Use `as` to give a module another name.
 
 ```python
-from calculator import add, multiply
+import math as m
+
+print(m.sqrt(25))
+```
+
+This is commonly used with libraries:
+
+```python
+import numpy as np
+import pandas as pd
 ```
 
 ---
 
-# 6. Import Everything using `*`
+# 5. Important Built-in Modules
 
-We can import everything from a module:
+## `math`
 
-```python
-from calculator import *
-```
-
-Now:
+Used for mathematical operations.
 
 ```python
-print(add(10, 20))
-print(multiply(5, 4))
+import math
+
+print(math.sqrt(25))
+print(math.pow(2, 3))
+print(math.factorial(5))
+print(math.pi)
 ```
 
-### ⚠️ Why should we generally avoid this?
+### Common functions
 
-Because it can make it unclear where a function or variable came from.
-
-For example:
-
-```python
-from calculator import *
-from maths import *
-```
-
-If both modules contain:
-
-```python
-add()
-```
-
-it becomes difficult to know which `add()` is being used.
-
-### Better approach
-
-Prefer:
-
-```python
-import calculator
-```
-
-or:
-
-```python
-from calculator import add
-```
+| Function      | Purpose        |
+| ------------- | -------------- |
+| `sqrt()`      | Square root    |
+| `pow()`       | Power          |
+| `factorial()` | Factorial      |
+| `ceil()`      | Round upward   |
+| `floor()`     | Round downward |
+| `pi`          | Value of π     |
 
 ---
 
-# 7. Renaming a Module using `as`
+## `random`
 
-Sometimes module names are long.
-
-Example:
+Used to generate random values.
 
 ```python
-import calculator
+import random
+
+print(random.randint(1, 10))
+print(random.random())
 ```
 
-We can give it another name:
+### Common functions
 
 ```python
-import calculator as calc
-```
-
-Now:
-
-```python
-print(calc.add(10, 20))
-```
-
-Instead of:
-
-```python
-calculator.add(10, 20)
-```
-
-### Syntax
-
-```python
-import module_name as alias
+random.randint(1, 100)
+random.choice([10, 20, 30])
+random.random()
 ```
 
 ### Example
 
 ```python
-import numpy as np
-```
+names = ["Amit", "Rahul", "Priya"]
 
-Here:
-
-```text
-numpy → actual module
-np    → alias
-```
-
-We then write:
-
-```python
-np.array([10, 20, 30])
+print(random.choice(names))
 ```
 
 ---
 
-# 8. Renaming Imported Functions
+## `datetime`
 
-We can also rename a specific function.
-
-```python
-from calculator import add as addition
-```
-
-Now:
+Used to work with dates and times.
 
 ```python
-print(addition(10, 20))
+from datetime import datetime
+
+now = datetime.now()
+
+print(now)
+print(now.year)
+print(now.month)
+print(now.day)
 ```
 
-Here:
+### Create a specific date
 
-```text
-add       → original function
-addition  → alias
+```python
+from datetime import datetime
+
+date = datetime(2026, 8, 21)
+
+print(date)
 ```
 
 ---
 
-# 9. What is `__name__`?
+## `time`
 
-Every Python module has a special built-in variable:
-
-```python
-__name__
-```
-
-Its value depends on **how the Python file is being executed**.
-
-### If the file is executed directly
+Used for working with time-related operations.
 
 ```python
-python calculator.py
+import time
+
+print("Hello")
+
+time.sleep(2)
+
+print("World")
 ```
 
-then:
+`time.sleep()` pauses program execution.
+
+---
+
+# 🧪 Lecture 1 Lab Work
+
+### Task 1
+
+Create a module named `calculator.py` containing:
+
+* `add()`
+* `subtract()`
+* `multiply()`
+* `divide()`
+
+Import it into `main.py`.
+
+### Task 2
+
+Create a program that generates a random number between **1 and 100**.
+
+### Task 3
+
+Display:
+
+* Current date
+* Current time
+* Current year
+* Current month
+* Current day
+
+### Task 4
+
+Create a countdown using `time.sleep()`.  
+
+---
+
+# 💪 Self Exercises — Lecture 1
+
+1. What is a module?
+2. Difference between built-in and user-defined modules.
+3. Difference between `import math` and `from math import sqrt`.
+4. What does `as` do?
+5. Generate a random number between 1 and 50.
+6. Select a random student from a list.
+7. Find factorial of 6 using `math`.
+8. Display today's date.
+9. Pause a program for 5 seconds.
+10. Create and import your own module.
+
+---
+
+# 📚 Lecture 2 — Packages & Advanced Modules
+
+# 6. `uuid` Module
+
+The `uuid` module generates **universally unique identifiers**.
 
 ```python
-__name__ == "__main__"
+import uuid
+
+id = uuid.uuid4()
+
+print(id)
 ```
 
-### If the file is imported
-
-Suppose:
-
-```python
-import calculator
-```
-
-Then inside `calculator.py`:
-
-```python
-__name__
-```
-
-will contain:
+Example output:
 
 ```text
-calculator
+550e8400-e29b-41d4-a716-446655440000
+```
+
+Useful when creating:
+
+* User IDs
+* Order IDs
+* File IDs
+* Database identifiers
+
+---
+
+# 7. Higher-Order Functions
+
+A **higher-order function** is a function that:
+
+* accepts another function as an argument, or
+* returns a function.
+
+Python provides useful built-in higher-order functions:
+
+```text
+sorted()
+map()
+filter()
+reduce()
 ```
 
 ---
 
-# 10. Understanding `__name__` with Example
+## `sorted()`
 
-Create:
-
-### `calculator.py`
+Sorts an iterable and returns a **new list**.
 
 ```python
-print(__name__)
-```
+numbers = [5, 2, 8, 1, 3]
 
-Now run:
+result = sorted(numbers)
 
-```text
-calculator.py
+print(result)
 ```
 
 Output:
 
 ```text
-__main__
+[1, 2, 3, 5, 8]
 ```
 
-Because we directly executed the file.
+### Descending order
+
+```python
+sorted(numbers, reverse=True)
+```
 
 ---
 
-Now create:
+## `map()`
 
-### `main.py`
+Applies a function to every element.
 
 ```python
-import calculator
-```
+numbers = [1, 2, 3, 4]
 
-Run:
+result = map(lambda x: x * 2, numbers)
 
-```text
-main.py
+print(list(result))
 ```
 
 Output:
 
 ```text
-calculator
+[2, 4, 6, 8]
 ```
 
-Because `calculator.py` was imported.
-
----
-
-# 11. `if __name__ == "__main__"`
-
-This is one of the **most important concepts** in Python modules.
-
-We can write:
-
-```python
-if __name__ == "__main__":
-    print("Program started")
-```
-
-This code runs **only when the file is executed directly**.
-
----
-
-## Example
-
-### `calculator.py`
-
-```python
-def add(a, b):
-    return a + b
-
-
-if __name__ == "__main__":
-    print(add(10, 20))
-```
-
-### Case 1 — Direct execution
+### Remember
 
 ```text
-python calculator.py
+map → transform every element
+```
+
+---
+
+## `filter()`
+
+Filters elements based on a condition.
+
+```python
+numbers = [1, 2, 3, 4, 5, 6]
+
+result = filter(lambda x: x % 2 == 0, numbers)
+
+print(list(result))
 ```
 
 Output:
 
 ```text
-30
+[2, 4, 6]
 ```
 
-### Case 2 — Importing
-
-```python
-import calculator
-```
-
-The `add()` function becomes available, but:
-
-```python
-print(add(10, 20))
-```
-
-inside the `if` block does **not** execute.
-
----
-
-# 12. Why Do We Use `__main__`?
-
-Imagine:
+### Remember
 
 ```text
-calculator.py
+filter → select required elements
 ```
-
-contains:
-
-```python
-def add(a, b):
-    return a + b
-
-print(add(10, 20))
-```
-
-Now another file imports it:
-
-```python
-import calculator
-```
-
-The moment we import it, this runs:
-
-```python
-print(add(10, 20))
-```
-
-That's often undesirable.
-
-Instead:
-
-```python
-def add(a, b):
-    return a + b
-
-
-if __name__ == "__main__":
-    print(add(10, 20))
-```
-
-Now the testing/demo code runs only when `calculator.py` is executed directly.
-
-### ⭐ Simple rule for students
-
-> `__main__` means: **"This file is being run directly."**
 
 ---
 
-# 13. Creating a Package
+## `reduce()`
 
-A **package** is a way of organizing multiple related modules into a directory.
+`reduce()` repeatedly combines elements into a single result.
+
+Import it from `functools`.
+
+```python
+from functools import reduce
+
+numbers = [1, 2, 3, 4]
+
+result = reduce(lambda a, b: a + b, numbers)
+
+print(result)
+```
+
+Output:
+
+```text
+10
+```
+
+### Remember
+
+```text
+map    → transform
+filter → select
+reduce → combine
+sorted → arrange
+```
+
+---
+
+# 8. What is a Package?
+
+A **package** is a directory containing multiple Python modules.
 
 Example:
 
@@ -532,177 +458,163 @@ project/
 │
 └── calculator/
     ├── __init__.py
-    ├── arithmetic.py
-    └── scientific.py
+    ├── basic.py
+    └── advanced.py
 ```
 
 Here:
 
 ```text
-calculator
+calculator → Package
+basic.py   → Module
+advanced.py → Module
 ```
-
-is a package.
-
-And:
-
-```text
-arithmetic.py
-scientific.py
-```
-
-are modules inside that package.
 
 ---
 
-# 14. Creating a Simple Package
+# 9. Creating a Package
 
-Create this structure:
+### Step 1 — Create folder
 
 ```text
-project/
-│
-├── main.py
-│
-└── maths/
-    ├── __init__.py
-    ├── addition.py
-    └── multiplication.py
+calculator
 ```
 
-### `addition.py`
+### Step 2 — Create modules
+
+```text
+calculator/
+│
+├── __init__.py
+├── basic.py
+└── advanced.py
+```
+
+### `basic.py`
 
 ```python
 def add(a, b):
     return a + b
 ```
 
-### `multiplication.py`
+### `main.py`
 
 ```python
-def multiply(a, b):
-    return a * b
-```
+from calculator.basic import add
 
----
-
-# 15. Using a Package
-
-Inside `main.py`:
-
-```python
-from maths import addition
-from maths import multiplication
-
-print(addition.add(10, 20))
-print(multiplication.multiply(5, 4))
-```
-
-Output:
-
-```text
-30
-20
-```
-
----
-
-# 16. Importing Directly from a Package
-
-We can also write:
-
-```python
-from maths.addition import add
-```
-
-Then:
-
-```python
 print(add(10, 20))
 ```
 
-### General syntax
-
-```python
-from package.module import member
-```
-
-Example:
-
-```python
-from maths.addition import add
-```
-
-Breakdown:
-
-```text
-maths       → package
-addition    → module
-add         → function
-```
-
 ---
 
-# 17. What is `__init__.py`?
+# 10. What is `__init__.py`?
 
-`__init__.py` is a special Python file associated with a package.
+`__init__.py` is a special Python file used inside a package.
 
 Example:
 
 ```text
-maths/
+calculator/
 │
 ├── __init__.py
-├── addition.py
-└── multiplication.py
+├── basic.py
+└── advanced.py
 ```
 
 It can be used to:
 
-* Initialize package-related code
-* Expose selected functionality
-* Control what gets imported from the package
-* Store package-level variables/functions
+* Mark/define package structure
+* Run package initialization code
+* Expose selected functions/classes
 
-### Important modern Python point
+For beginners, remember:
 
-In **modern Python**, a directory can sometimes work as a package **without** `__init__.py` because of **namespace packages**.
+> **`__init__.py` belongs to a package and helps Python treat/initialize the directory as a package.**
 
-However, for teaching beginners and for many traditional package structures, keeping:
+Modern Python can also support **namespace packages without `__init__.py`**, but you should still teach students the conventional package structure using it.
+
+---
+
+# 11. `__name__` and `__main__`
+
+Every Python module has a special variable:
+
+```python
+__name__
+```
+
+When a file is executed directly:
+
+```python
+python file.py
+```
+
+Python sets:
+
+```python
+__name__ = "__main__"
+```
+
+When the same file is imported:
+
+```python
+import file
+```
+
+then:
+
+```python
+__name__ = "file"
+```
+
+---
+
+## Why use `if __name__ == "__main__"`?
+
+Example:
+
+**calculator.py**
+
+```python
+def add(a, b):
+    return a + b
+
+
+if __name__ == "__main__":
+    print(add(10, 20))
+```
+
+If we run:
 
 ```text
-__init__.py
+calculator.py
 ```
 
-is still a clear and common approach.
+the test code executes.
+
+But if we import:
+
+```python
+import calculator
+```
+
+the test code does **not** execute.
+
+### Best Practice
+
+Use:
+
+```python
+if __name__ == "__main__":
+```
+
+for code that should execute **only when the file is run directly**.
 
 ---
 
-# 18. Using `__init__.py`
+# 12. `dir()`
 
-Suppose:
-
-### `maths/__init__.py`
-
-```python
-print("Maths package loaded")
-```
-
-When the package is imported:
-
-```python
-import maths
-```
-
-the initialization code can execute.
-
----
-
-# 19. `dir()` Function
-
-`dir()` is a built-in Python function used to see the **names available inside an object/module**.
-
-### Basic example
+`dir()` shows the available attributes and methods of an object/module.
 
 ```python
 import math
@@ -710,508 +622,179 @@ import math
 print(dir(math))
 ```
 
-It displays names such as:
-
-```text
-sqrt
-pow
-factorial
-sin
-cos
-pi
-...
-```
-
----
-
-# 20. `dir()` with a String
+You can also use:
 
 ```python
-name = "Python"
-
-print(dir(name))
-```
-
-You will see methods such as:
-
-```text
-upper
-lower
-split
-replace
-find
-startswith
-endswith
-...
-```
-
-So we can use `dir()` to explore what an object provides.
-
----
-
-# 21. `dir()` with a List
-
-```python
-numbers = [10, 20, 30]
+numbers = [1, 2, 3]
 
 print(dir(numbers))
 ```
 
-It will show methods such as:
-
-```text
-append
-extend
-insert
-remove
-pop
-sort
-reverse
-...
-```
-
-### Very useful for students
-
-Instead of memorizing every method, students can use:
-
-```python
-dir(object)
-```
-
-to explore available attributes and methods.
+Useful for **exploring an unfamiliar module or object**.
 
 ---
 
-# 22. `dir()` Without an Argument
+# 🧪 Lecture 2 Lab Work
 
-We can also write:
+### Task 1 — UUID
 
-```python
-print(dir())
-```
-
-This shows names available in the **current scope**.
-
-Example:
-
-```python
-name = "Shivam"
-age = 25
-
-print(dir())
-```
-
-The result will contain names such as:
+Generate a unique ID for every student:
 
 ```text
-name
-age
-```
-
-along with other automatically available names.
-
----
-
-# 23. Module vs Package
-
-| Module                               | Package                                |
-| ------------------------------------ | -------------------------------------- |
-| Usually a `.py` file                 | Usually a directory containing modules |
-| Contains functions/classes/variables | Organizes related modules              |
-| Example: `calculator.py`             | Example: `maths/`                      |
-| Smaller unit                         | Higher-level organization              |
-
-### Easy way to remember
-
-```text
-Module  → File
-Package → Folder of modules
+Student Name → UUID
 ```
 
 ---
 
-# 24. Complete Example
+### Task 2 — `map()`
 
-Let's build a small project.
+Given:
+
+```python
+numbers = [1, 2, 3, 4, 5]
+```
+
+Create a new list containing their squares.
+
+Expected:
 
 ```text
-student_project/
+[1, 4, 9, 16, 25]
+```
+
+---
+
+### Task 3 — `filter()`
+
+From:
+
+```python
+numbers = [10, 15, 20, 25, 30, 35]
+```
+
+extract only even numbers.
+
+---
+
+### Task 4 — `reduce()`
+
+Calculate the product:
+
+```text
+1 × 2 × 3 × 4 × 5
+```
+
+---
+
+### Task 5 — Package
+
+Create:
+
+```text
+student/
+│
+├── __init__.py
+├── details.py
+└── marks.py
+```
+
+Create functions in both modules and import them into `main.py`.
+
+---
+
+### Task 6 — `__name__`
+
+Create a module containing:
+
+```python
+def message():
+    print("Hello Python")
+
+
+if __name__ == "__main__":
+    message()
+```
+
+Test it both by:
+
+1. Running the file directly
+2. Importing it into another file
+
+---
+
+# 💪 Self Exercises — Lecture 2
+
+1. What is a package?
+2. Module vs package.
+3. What is `__init__.py`?
+4. What is `__name__`?
+5. What is the purpose of `if __name__ == "__main__"`?
+6. What does `dir()` return?
+7. Difference between `map()` and `filter()`.
+8. What does `reduce()` do?
+9. Generate 5 UUIDs.
+10. Create a package containing 3 modules.
+
+---
+
+# 🎯 Quick Revision
+
+| Concept       | Remember                              |
+| ------------- | ------------------------------------- |
+| Module        | `.py` file containing reusable code   |
+| Package       | Collection of modules                 |
+| `import`      | Import module                         |
+| `as`          | Rename/alias                          |
+| `math`        | Mathematical operations               |
+| `random`      | Random values                         |
+| `datetime`    | Date & time                           |
+| `time`        | Time-related operations               |
+| `uuid`        | Unique identifiers                    |
+| `sorted()`    | Sort data                             |
+| `map()`       | Transform data                        |
+| `filter()`    | Select data                           |
+| `reduce()`    | Combine data                          |
+| `__init__.py` | Package initialization/structure      |
+| `__name__`    | Identifies how a module is being used |
+| `__main__`    | Indicates direct execution            |
+| `dir()`       | Explore available attributes          |
+
+---
+
+# 🏆 Mini Project — 2 Days
+
+## **Student Management Package**
+
+Create:
+
+```text
+student_management/
 │
 ├── main.py
 │
 └── student/
     ├── __init__.py
     ├── details.py
-    └── marks.py
+    ├── marks.py
+    └── operations.py
 ```
 
-### `details.py`
+### Requirements
 
-```python
-def get_name():
-    return "Rahul"
-```
+Your project should:
 
-### `marks.py`
+* Add student details
+* Generate a UUID for each student
+* Store marks
+* Calculate total/average
+* Filter students based on marks
+* Sort students by marks
+* Use `map()`, `filter()`, `reduce()` and `sorted()`
+* Use proper module imports
+* Use `__name__ == "__main__"`
 
-```python
-def get_marks():
-    return 85
-```
+### 🎯 Learning Outcome
 
-### `main.py`
+By the end of these **2 lectures**, students should be able to:
 
-```python
-from student.details import get_name
-from student.marks import get_marks
-
-print("Name:", get_name())
-print("Marks:", get_marks())
-```
-
-Output:
-
-```text
-Name: Rahul
-Marks: 85
-```
-
-This example combines:
-
-* Modules
-* Packages
-* Importing
-* Functions
-* Package structure
-
----
-
-# 25. Important Syntax Cheat Sheet
-
-### Import module
-
-```python
-import module
-```
-
-### Import multiple modules
-
-```python
-import module1, module2
-```
-
-### Import specific member
-
-```python
-from module import function
-```
-
-### Import multiple members
-
-```python
-from module import function1, function2
-```
-
-### Rename module
-
-```python
-import module as m
-```
-
-### Rename function
-
-```python
-from module import function as f
-```
-
-### Package import
-
-```python
-from package import module
-```
-
-### Import from module inside package
-
-```python
-from package.module import function
-```
-
-### Check direct execution
-
-```python
-if __name__ == "__main__":
-    ...
-```
-
-### Explore members
-
-```python
-dir(object)
-```
-
----
-
-# 26. Common Mistakes Students Make
-
-### ❌ Mistake 1 — Forgetting module name
-
-```python
-import calculator
-
-add(10, 20)
-```
-
-If `add` wasn't imported directly, this is incorrect.
-
-### ✅ Correct
-
-```python
-calculator.add(10, 20)
-```
-
----
-
-### ❌ Mistake 2 — Confusing `__name__`
-
-Students often think:
-
-```python
-__name__
-```
-
-is always:
-
-```text
-__main__
-```
-
-### Correct understanding
-
-```text
-Direct execution → __main__
-
-Imported module → module's name
-```
-
----
-
-### ❌ Mistake 3 — Using `from module import *`
-
-Although valid:
-
-```python
-from calculator import *
-```
-
-it can make code harder to understand.
-
-Prefer explicit imports.
-
----
-
-### ❌ Mistake 4 — Confusing module and package
-
-```text
-calculator.py → Module
-
-calculator/   → Package
-```
-
----
-
-# 27. 🎯 Practice Exercises
-
-## Beginner
-
-### Q1
-
-Create a module called:
-
-```text
-calculator.py
-```
-
-Create functions:
-
-```text
-add()
-subtract()
-multiply()
-divide()
-```
-
-Import and use them from `main.py`.
-
----
-
-### Q2
-
-Create:
-
-```text
-student.py
-```
-
-with:
-
-```python
-name
-age
-course
-```
-
-Import the module and print the values.
-
----
-
-### Q3
-
-Import the `math` module and use:
-
-```python
-sqrt()
-pow()
-factorial()
-```
-
----
-
-## Intermediate
-
-### Q4
-
-Create:
-
-```text
-calculator.py
-```
-
-and use:
-
-```python
-import calculator as calc
-```
-
-Call its functions using the alias.
-
----
-
-### Q5
-
-Create a module containing:
-
-```python
-def greet():
-    print("Hello Student")
-```
-
-Add:
-
-```python
-if __name__ == "__main__":
-    greet()
-```
-
-Test it by:
-
-1. Running the file directly
-2. Importing it from another file
-
-Observe the difference.
-
----
-
-### Q6
-
-Create this package:
-
-```text
-college/
-├── __init__.py
-├── student.py
-└── teacher.py
-```
-
-Create functions in both modules and use them from `main.py`.
-
----
-
-## 🔥 Challenge
-
-Create:
-
-```text
-banking/
-│
-├── __init__.py
-├── account.py
-├── deposit.py
-└── withdraw.py
-│
-└── main.py
-```
-
-Implement:
-
-```text
-create account
-deposit money
-withdraw money
-display balance
-```
-
-Use modules and packages to organize the project.
-
----
-
-# 🧠 Final Concept Map
-
-```text
-Python Code Organization
-│
-├── Module
-│   └── Python file (.py)
-│
-├── Import
-│   ├── import module
-│   ├── from module import ...
-│   └── import module as alias
-│
-├── __name__
-│   ├── Direct execution → "__main__"
-│   └── Import → module name
-│
-├── Package
-│   └── Folder containing related modules
-│       └── __init__.py
-│
-└── dir()
-    └── Explore available names/members
-```
-
-## ⭐ One-minute revision
-
-> **Module = Python file containing reusable code.**
-
-> **Package = Collection/organization of related modules.**
-
-> **`import` = Bring a module into another Python program.**
-
-> **`as` = Give an alias/short name.**
-
-> **`__name__` = Tells how the module is being used.**
-
-> **`__main__` = The file is being executed directly.**
-
-> **`__init__.py` = Package initialization/configuration file.**
-
-> **`dir()` = Explore names/attributes available in an object or module.**
-
-
-
-#from className Import 
-
-from file_name import ClassName
-
-# Usage
-my_object = ClassName()
+> **Create → import → organize → reuse Python code using modules and packages.**
